@@ -1,3 +1,5 @@
+
+
 class Contact
   attr_accessor :first_name, :last_name, :email, :note
   attr_reader :id
@@ -41,35 +43,36 @@ class Contact
   # but it should allow you to search for a contact using attributes other than id
   # by specifying both the name of the attribute and the value
   # eg. searching for 'first_name', 'Betty' should return the first contact named Betty
-  def self.find_by(user_input)
-    puts "searching using '#{user_input}'"
-    case user_input
+  def self.find_by(attr, attr_value)
+    case attr
     when "first_name"
-      puts "enter first name"
-      first_name = gets.chomp
-      Contact.find_first_name(first_name)
+      Contact.find_first_name(attr_value)
     when "last_name"
-      puts "enter last name"
-      last_name = gets.chomp
-      Contact.find_last_name(last_name)
+      Contact.find_last_name(attr_value)
     when "e_mail"
-      puts "enter e_mail"
-      email = gets.chomp
-      Contact.find_email(email)
+      Contact.find_email(attr_value)
     when "id"
-      puts "enter ID number:"
-      id_num = gets.chomp
-      Contact.find_id(id_num)
+      Contact.find_id(attr_value)
     else
       puts "I don't know what's going on."
     end
   end
 
+# This method returns
+  def self.find(id)
+    @@contacts.each do |contact|
+      if contact.id == id
+        return contact
+      end
+    end
+  end
+
+
 # This method return contact that has first_name
   def self.find_first_name(first_name)
     @@contacts.each do |x|
       if x.first_name == first_name
-        x.output_contact_info
+         return x
       end
     end
   end
@@ -78,7 +81,7 @@ class Contact
   def self.find_last_name(last_name)
     @@contacts.each do |x|
       if x.last_name == last_name
-        x.output_contact_info
+         return x
       end
     end
   end
@@ -87,7 +90,7 @@ class Contact
   def self.find_email(email)
     @@contacts.each do |x|
       if x.email == email
-        x.output_contact_info
+        return x
       end
     end
   end
@@ -117,11 +120,11 @@ class Contact
 
   # This method should delete all of the contacts
   def self.delete_all
-    @@contacts = []
+    @@contacts.clear
   end
 
   def full_name
-
+    "#{first_name} #{last_name}"
   end
 
   # This method should delete the contact
@@ -133,6 +136,3 @@ class Contact
   # Feel free to add other methods here, if you need them.
 
 end
-
-Contact.create("Rui", "Dong", "Ruiemail", "awesome")
-Contact.create("Julie", "He", "Julieemail", "awesome")
